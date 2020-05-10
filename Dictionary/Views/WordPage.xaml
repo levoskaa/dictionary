@@ -183,14 +183,13 @@
             <StackPanel x:Name="pnlLanguageSelector"
                     Orientation="Horizontal"
                     Grid.Row="0"
-                    Grid.Column="0"
-                    Height="Auto">
+                    Grid.Column="0">
                 <ComboBox x:Name="cmbFromLanguage"
                       Header="From"
                       PlaceholderText="Select a language"                      
                       Width="180"
                       Height="56"
-                      Margin="24,24,24,8"
+                      Margin="24,24,12,8"
                       ItemsSource="{x:Bind ViewModel.Languages, Mode=OneWay}"
                       SelectedItem="{x:Bind ViewModel.SelectedFromLanguage, Mode=TwoWay}" />
                 <Button x:Name="btnSwitch"                        
@@ -199,7 +198,7 @@
                         FontFamily="Segoe MDL2 Assets"
                         Content="&#xE8AB;"
                         Padding="0,0,0,0"
-                        Margin="0,48,24,24"
+                        Margin="0,48,12,8"
                         IsEnabled="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                         Click="{x:Bind ViewModel.SwitchLanguages}"/>
                 <ComboBox x:Name="cmbToLanguage"
@@ -214,9 +213,10 @@
                 <TextBox x:Name="tbSearch"
                      Header=" "
                      PlaceholderText="Enter a word"
-                     Margin="24,24,24,24"
+                     Margin="24,24,12,8"
                      Width="252"
-                     Height="{x:Bind cmbFromLanguage.Height}"
+                     Height="56"
+                     MaxHeight="56"
                      KeyDown="tbSearchKeyDown"/>
                 <Button x:Name="bSearch"
                         FontFamily="Segoe MDL2 Assets"
@@ -225,7 +225,7 @@
                         Height="32"
                         Width="32"
                         Padding="0,0,0,0"
-                        Margin="0,48,24,24"
+                        Margin="0,48,24,8"
                         Click="{x:Bind SearchClickHandler}" />
             </StackPanel>
             <CheckBox IsChecked="{x:Bind ViewModel.SearchForSynonyms, Mode=TwoWay}"
