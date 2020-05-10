@@ -119,12 +119,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Repository\RestTranslation.cs" />
+    <Compile Include="Resources\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\Translation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\WordListPage.xaml.cs">
-      <DependentUpon>WordListPage.xaml</DependentUpon>
+    <Compile Include="Repository\RestTranslationRepository.cs" />
+    <Compile Include="Repository\ITranslationRepository.cs" />
+    <Compile Include="Resources\InverseBooleanConverter.cs" />
+    <Compile Include="Resources\LanguageConverter.cs" />
+    <Compile Include="Resources\ValueConverterGroup.cs" />
+    <Compile Include="ViewModels\WordPageViewModel.cs" />
+    <Compile Include="Views\WordPage.xaml.cs">
+      <DependentUpon>WordPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -147,24 +153,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\WordListPage.xaml">
+    <Page Include="Views\WordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>3.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
