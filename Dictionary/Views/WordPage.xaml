@@ -271,7 +271,7 @@
                          Text="{x:Bind ViewModel.Translation.SourceWord, Mode=OneWay}" />
                 <ListView x:Name="listSynonyms"
                           Height="300"
-                          Width="120"
+                          Width="Auto"
                           Header="Synonyms"
                           HorizontalAlignment="Left"
                           RelativePanel.RightOf="tbWord"

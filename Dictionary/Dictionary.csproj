@@ -126,7 +126,6 @@
     <Compile Include="Repository\RestTranslationRepository.cs" />
     <Compile Include="Repository\ITranslationRepository.cs" />
     <Compile Include="Resources\InverseBooleanConverter.cs" />
-    <Compile Include="Resources\LanguageConverter.cs" />
     <Compile Include="Resources\ValueConverterGroup.cs" />
     <Compile Include="ViewModels\WordPageViewModel.cs" />
     <Compile Include="Views\WordPage.xaml.cs">

@@ -113,6 +113,10 @@ namespace Dictionary.ViewModels
 
         public async void Search(string word)
         {
+            if (word == null || word == string.Empty)
+            {
+                return;
+            }
             if (SearchForSynonyms)
             {
                 Translation = await App.Repository.GetSynonymsAsync(word, SelectedFromLanguage);
