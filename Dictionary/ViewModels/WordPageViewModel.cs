@@ -113,7 +113,7 @@ namespace Dictionary.ViewModels
 
         public async void Search(string word)
         {
-            if (word == null || word == string.Empty)
+            if (word == null || word == string.Empty || IsLanguageErrorVisible)
             {
                 return;
             }
@@ -125,6 +125,13 @@ namespace Dictionary.ViewModels
             {
                 Translation = await App.Repository.GetTranslationAsync(word, SelectedFromLanguage, SelectedToLanguage);
             }
+        }
+
+        public void SwitchLanguages()
+        {
+            string temp = SelectedFromLanguage;
+            SelectedFromLanguage = SelectedToLanguage;
+            SelectedToLanguage = temp;
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
