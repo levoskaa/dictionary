@@ -36,7 +36,7 @@ namespace Dictionary.Repository
             {
                 return new Models.Translation
                 {
-                    SourceWord = word,
+                    SourceWord = obj.Def[0].Text,
                     TranslatedWord = obj.Def[0].Tr[0].Text
                 };
             }
@@ -69,7 +69,7 @@ namespace Dictionary.Repository
             }
             return new Models.Translation
             {
-                SourceWord = word,
+                SourceWord = obj.Def[0].Text,
                 Synonyms = synonyms
             };
         }
