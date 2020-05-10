@@ -8,6 +8,6 @@ namespace Dictionary.Repository
     {
         Task<IEnumerable<string>> GetLanguagesAsync();
 
-        Task<Translation> GetTranslationAsync(string word, string fromLanguage, string toLanguage);
+        Task<Models.Translation> GetTranslationAsync(string word, string fromLanguage, string toLanguage);
     }
 }

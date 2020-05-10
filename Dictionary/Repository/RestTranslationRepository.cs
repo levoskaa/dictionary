@@ -1,5 +1,6 @@
 ﻿using Dictionary.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -14,18 +15,24 @@ namespace Dictionary.Repository
 
         public async Task<IEnumerable<string>> GetLanguagesAsync()
         {
-            var response = await httpClient.GetAsync($"getLangs?key={apiKey}");
+            var response = await httpClient.GetAsync($"getLangs?key={apiKey}");            
             string json = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<IEnumerable<string>>(json);
             return obj;
         }
 
-        public async Task<Translation> GetTranslationAsync(string word, string fromLanguage, string toLanguage)
+        public async Task<Models.Translation> GetTranslationAsync(string word, string fromLanguage, string toLanguage)
         {
             var response = await httpClient.GetAsync($"lookup?key={apiKey}&lang={fromLanguage}-{toLanguage}&text={word}");
             string json = await response.Content.ReadAsStringAsync();
-            var obj = JsonConvert.DeserializeObject<Translation>(json);
-            return obj;
+            var obj = JsonConvert.DeserializeObject<RestTranslation>(json);
+            var translation = new Models.Translation
+            {
+                SourceWord = obj.Def[0].Text,
+                TranslatedWord = obj.Def[0].Tr[0].Text
+            };
+
+            return translation;
         }
     }
 }
