@@ -183,7 +183,8 @@
             <StackPanel x:Name="pnlLanguageSelector"
                     Orientation="Horizontal"
                     Grid.Row="0"
-                    Grid.Column="0">
+                    Grid.Column="0"
+                    Height="Auto">
                 <ComboBox x:Name="cmbFromLanguage"
                       Header="From"
                       PlaceholderText="Select a language"                      
@@ -206,7 +207,7 @@
                       PlaceholderText="Select a language"
                       Width="{x:Bind cmbFromLanguage.Width}"
                       Height="{x:Bind cmbFromLanguage.Height}"
-                      Margin="0,24,48,6"
+                      Margin="0,24,48,8"
                       ItemsSource="{x:Bind ViewModel.Languages, Mode=OneWay}"
                       SelectedItem="{x:Bind ViewModel.SelectedToLanguage, Mode=TwoWay}"
                       IsEnabled="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"/>
@@ -241,12 +242,11 @@
         </StackPanel>
         <StackPanel Orientation="Vertical"
                     Grid.Row="1"
-                    Grid.Column="0">
-            <TextBox Text="Result"
+                    Grid.Column="0"
+                    Margin="0,24,0,0">
+            <TextBlock Text="Result"
                      FontSize="18"
-                     IsReadOnly="True"
                      FontWeight="Bold"
-                     BorderThickness="0"
                      Padding="0,4,0,0"
                      Margin="24,0,24,0"/>
             <StackPanel Orientation="Horizontal"
