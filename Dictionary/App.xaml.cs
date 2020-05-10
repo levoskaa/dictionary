@@ -3,6 +3,8 @@ using Dictionary.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -64,6 +66,8 @@ namespace Dictionary
                     rootFrame.Navigate(typeof(WordPage), e.Arguments);
                 }
                 // Ensure the current window is active
+                ApplicationView.PreferredLaunchViewSize = new Size(785, 500);
+                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
                 Window.Current.Activate();
             }
         }
