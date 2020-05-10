@@ -1,6 +1,4 @@
-﻿using Dictionary.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -15,7 +13,7 @@ namespace Dictionary.Repository
 
         public async Task<IEnumerable<string>> GetLanguagesAsync()
         {
-            var response = await httpClient.GetAsync($"getLangs?key={apiKey}");            
+            var response = await httpClient.GetAsync($"getLangs?key={apiKey}");
             string json = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<IEnumerable<string>>(json);
             return obj;
@@ -26,13 +24,35 @@ namespace Dictionary.Repository
             var response = await httpClient.GetAsync($"lookup?key={apiKey}&lang={fromLanguage}-{toLanguage}&text={word}");
             string json = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<RestTranslation>(json);
-            var translation = new Models.Translation
+            return new Models.Translation
             {
                 SourceWord = obj.Def[0].Text,
                 TranslatedWord = obj.Def[0].Tr[0].Text
             };
+        }
 
-            return translation;
+        public async Task<Models.Translation> GetSynonymsAsync(string word, string language)
+        {
+            var response = await httpClient.GetAsync($"lookup?key={apiKey}&lang={language}-{language}&text={word}");
+            string json = await response.Content.ReadAsStringAsync();
+            var obj = JsonConvert.DeserializeObject<RestTranslation>(json);
+            var synonyms = new List<string>();
+            foreach (Translation translation in obj.Def[0].Tr)
+            {
+                synonyms.Add(translation.Text);
+                if (translation.Syn != null)
+                {
+                    foreach (Synonym synonym in translation.Syn)
+                    {
+                        synonyms.Add(synonym.Text);
+                    }
+                }
+            }
+            return new Models.Translation
+            {
+                SourceWord = obj.Def[0].Text,
+                Synonyms = synonyms
+            };
         }
     }
 }
