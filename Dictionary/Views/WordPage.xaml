@@ -6,12 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:Dictionary.ViewModels"
-    xmlns:converter="using:Dictionary.Converters"
+    xmlns:resource="using:Dictionary.Resources"
+    xmlns:model="using:Dictionary.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <resource:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <resource:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <resource:ValueConverterGroup x:Key="InvertAndVisibilitate">
+            <resource:InverseBooleanConverter />
+            <resource:BooleanToVisibilityConverter />
+        </resource:ValueConverterGroup>
         <Style x:Key="PlainTextBox" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
             <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
@@ -118,7 +124,7 @@
 
     <Page.DataContext>
         <viewmodel:WordPageViewModel />
-    </Page.DataContext>
+    </Page.DataContext>    
 
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
@@ -150,13 +156,15 @@
                       Height="{x:Bind cmbFromLanguage.Height}"
                       Margin="0,24,24,6"
                       ItemsSource="{x:Bind ViewModel.Languages, Mode=OneWay}"
-                      SelectedItem="{x:Bind ViewModel.SelectedToLanguage, Mode=TwoWay}" />
+                      SelectedItem="{x:Bind ViewModel.SelectedToLanguage, Mode=TwoWay}"
+                      IsEnabled="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"/>
                 <TextBox x:Name="tbSearch"
                      Header=" "
                      PlaceholderText="Enter a word"
                      Margin="24,24,24,6"
                      Width="250"
-                     Height="{x:Bind cmbFromLanguage.Height}" />
+                     Height="{x:Bind cmbFromLanguage.Height}"
+                     KeyDown="tbSearchKeyDown"/>
                 <Button x:Name="bSearch"
                         FontFamily="Segoe MDL2 Assets"
                         Content="&#xE721;"
@@ -165,8 +173,11 @@
                         Width="32"
                         Padding="0,0,0,0"
                         Margin="0,41,24,0"
-                        Click="{x:Bind ViewModel.Search}" />
+                        Click="{x:Bind SearchClickHandler}" />
             </StackPanel>
+            <CheckBox IsChecked="{x:Bind ViewModel.SearchForSynonyms, Mode=TwoWay}"
+                      Content="Synonym search"
+                      Margin="24,0,0,0"/>
             <TextBox Style="{StaticResource PlainTextBox}"
                      Text="The selected language combination is invalid!"
                      Padding="0,5,0,0"
@@ -186,36 +197,35 @@
                      BorderThickness="0"
                      Padding="0,5,0,0"
                      Margin="24,0,24,0"/>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Visibility="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource InvertAndVisibilitate}, Mode=OneWay}">
                 <TextBox Header="Source"
                          IsReadOnly="True"
                          BorderThickness="0"
                          Margin="24,0,24,24"
                          Width="{x:Bind tbSearch.Width}"
-                         Height="{x:Bind cmbFromLanguage.Height}" />
+                         Height="{x:Bind cmbFromLanguage.Height}"
+                         Text="{x:Bind ViewModel.Translation.SourceWord, Mode=OneWay}" />
                 <TextBox Header="Translated"
                          IsReadOnly="True"
                          BorderThickness="0"
                          Margin="0,0,24,24"
                          Width="{x:Bind tbSearch.Width}"
-                         Height="{x:Bind cmbFromLanguage.Height}" />
-                <ListView>
+                         Height="{x:Bind cmbFromLanguage.Height}"
+                         Text="{x:Bind ViewModel.Translation.TranslatedWord, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Visibility="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                <TextBox Header="Word"
+                         IsReadOnly="True"
+                         BorderThickness="0"
+                         Margin="24,0,24,24"
+                         Width="{x:Bind tbSearch.Width}"
+                         Height="{x:Bind cmbFromLanguage.Height}"
+                         Text="{x:Bind ViewModel.Translation.SourceWord, Mode=OneWay}" />
+                <ListView Header="Synonyms">
                 </ListView>
             </StackPanel>
-        </StackPanel>
-        <StackPanel Orientation="Vertical"
-                    Grid.Row="2"
-                    Grid.Column="0">
-            <TextBox Text="History"
-                     FontSize="18"
-                     IsReadOnly="True"
-                     FontWeight="Bold"
-                     BorderThickness="0"
-                     Padding="0,5,0,0"
-                     Margin="24,0,24,0"/>
-            <ListView ItemsSource="{x:Bind ViewModel.Translations, Mode=OneWay}">
-                <ListViewItem Content="OK"/>
-            </ListView>
-        </StackPanel>
+        </StackPanel>        
     </Grid>
 </Page>

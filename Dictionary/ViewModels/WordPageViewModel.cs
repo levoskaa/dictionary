@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Dictionary.ViewModels
 {
@@ -10,17 +11,43 @@ namespace Dictionary.ViewModels
     {
         private string selectedFromLanguage = string.Empty;
         private string selectedToLanguage = string.Empty;
-        private bool validLanguageCombination = true;
+        private bool searchForSynonyms = false;
+        private Translation translation;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public Translation Translation { get; set; }
+        public Models.Translation Translation
+        {
+            get { return translation; }
+            set
+            {
+                if (!Translation?.Equals(value) ?? true)
+                {
+                    translation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public List<Translation> Translations { get; set; } = new List<Translation>();
+        public List<Models.Translation> Translations { get; set; } = new List<Models.Translation>();
 
         public List<string> ValidLanguageCombinations { get; set; } = new List<string>();
 
         public List<string> Languages { get; set; } = new List<string>();
+
+        public bool SearchForSynonyms
+        {
+            get { return searchForSynonyms; }
+            set
+            {
+                if (searchForSynonyms != value)
+                {
+                    searchForSynonyms = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged("IsLanguageErrorVisible");
+                }
+            }
+        }
 
         public bool IsLanguageCombinationValid
         {
@@ -33,7 +60,7 @@ namespace Dictionary.ViewModels
 
         public bool IsLanguageErrorVisible
         {
-            get { return !IsLanguageCombinationValid; }
+            get { return !IsLanguageCombinationValid && !SearchForSynonyms; }
         }
 
         public string SelectedFromLanguage
@@ -86,9 +113,11 @@ namespace Dictionary.ViewModels
             }
         }
 
-        public void Search()
+        public async void Search(string word)
         {
-            // TODO
+            Translation = await App.Repository.GetTranslationAsync(word, SelectedFromLanguage, SelectedToLanguage);
+            Translations.Add(Translation);
+            OnPropertyChanged("Translations");
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
