@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Dictionary.ViewModels
 {
@@ -29,8 +28,6 @@ namespace Dictionary.ViewModels
             }
         }
 
-        public List<Models.Translation> Translations { get; set; } = new List<Models.Translation>();
-
         public List<string> ValidLanguageCombinations { get; set; } = new List<string>();
 
         public List<string> Languages { get; set; } = new List<string>();
@@ -43,6 +40,7 @@ namespace Dictionary.ViewModels
                 if (searchForSynonyms != value)
                 {
                     searchForSynonyms = value;
+                    Translation = new Translation();
                     OnPropertyChanged();
                     OnPropertyChanged("IsLanguageErrorVisible");
                 }
@@ -115,9 +113,14 @@ namespace Dictionary.ViewModels
 
         public async void Search(string word)
         {
-            Translation = await App.Repository.GetTranslationAsync(word, SelectedFromLanguage, SelectedToLanguage);
-            Translations.Add(Translation);
-            OnPropertyChanged("Translations");
+            if (SearchForSynonyms)
+            {
+                Translation = await App.Repository.GetSynonymsAsync(word, SelectedFromLanguage);
+            }
+            else
+            {
+                Translation = await App.Repository.GetTranslationAsync(word, SelectedFromLanguage, SelectedToLanguage);
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
