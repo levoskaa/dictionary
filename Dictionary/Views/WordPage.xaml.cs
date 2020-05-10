@@ -1,6 +1,8 @@
 ﻿using Dictionary.ViewModels;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,6 +26,19 @@ namespace Dictionary.Views
         private void PageLoadedHandler(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadData();
+        }
+
+        private void SearchClickHandler(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Search(tbSearch.Text);
+        }
+
+        private void tbSearchKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                SearchClickHandler(sender, e);
+            }
         }
     }
 }
