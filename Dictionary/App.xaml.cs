@@ -66,7 +66,7 @@ namespace Dictionary
                     rootFrame.Navigate(typeof(WordPage), e.Arguments);
                 }
                 // Ensure the current window is active
-                ApplicationView.PreferredLaunchViewSize = new Size(785, 500);
+                ApplicationView.PreferredLaunchViewSize = new Size(868, 500);
                 ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
                 Window.Current.Activate();
             }
