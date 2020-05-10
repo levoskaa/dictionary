@@ -24,12 +24,12 @@ namespace Dictionary.Repository
             var response = await httpClient.GetAsync($"lookup?key={apiKey}&lang={fromLanguage}-{toLanguage}&text={word}");
             string json = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<RestTranslation>(json);
-            if (obj.Def.Length != 0)
+            if (obj.Def == null || obj.Def.Length == 0)
             {
                 return new Models.Translation
                 {
                     SourceWord = word,
-                    TranslatedWord = obj.Def[0].Tr[0].Text
+                    TranslatedWord = "No translation found"
                 };
             }
             else
@@ -37,7 +37,7 @@ namespace Dictionary.Repository
                 return new Models.Translation
                 {
                     SourceWord = word,
-                    TranslatedWord = "No translation found"
+                    TranslatedWord = obj.Def[0].Tr[0].Text
                 };
             }
         }
@@ -48,12 +48,12 @@ namespace Dictionary.Repository
             string json = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<RestTranslation>(json);
             var synonyms = new List<string>();
-            if (obj.Def.Length == 0)
+            if (obj.Def == null || obj.Def.Length == 0)
             {
                 return new Models.Translation
                 {
                     SourceWord = word,
-                    Synonyms = new List<string>(new [] { "No synonyms found" })
+                    Synonyms = new List<string>(new[] { "No synonyms found" })
                 };
             }
             foreach (Translation translation in obj.Def[0].Tr)
