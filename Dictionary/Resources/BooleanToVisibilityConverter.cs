@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Dictionary.Converters
+namespace Dictionary.Resources
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {
@@ -12,7 +12,7 @@ namespace Dictionary.Converters
             {
                 throw new InvalidOperationException("Target type must be Visibility!");
             }
-            return (bool) value ? Visibility.Visible : Visibility.Collapsed;
+            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
