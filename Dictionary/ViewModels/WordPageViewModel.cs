@@ -58,7 +58,7 @@ namespace Dictionary.ViewModels
 
         public bool IsLanguageErrorVisible
         {
-            get { return !IsLanguageCombinationValid && !SearchForSynonyms; }
+            get => !IsLanguageCombinationValid && !SearchForSynonyms || string.IsNullOrEmpty(SelectedFromLanguage);
         }
 
         public string SelectedFromLanguage
@@ -111,6 +111,10 @@ namespace Dictionary.ViewModels
             }
         }
 
+        /// <summary>
+        /// Searches for the given keyword
+        /// </summary>
+        /// <param name="word">Keyword to search for</param>
         public async void Search(string word)
         {
             if (word == null || word == string.Empty || IsLanguageErrorVisible)
