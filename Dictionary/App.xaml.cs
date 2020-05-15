@@ -4,11 +4,9 @@ using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Dictionary
@@ -18,6 +16,9 @@ namespace Dictionary
     /// </summary>
     sealed partial class App : Application
     {
+        /// <summary>
+        /// Provides an interface for accessing translation data.
+        /// </summary>
         public static ITranslationRepository Repository { get; private set; }
 
         /// <summary>
@@ -29,8 +30,6 @@ namespace Dictionary
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             Repository = new RestTranslationRepository();
-            //var brush = (SolidColorBrush) Resources["ApplicationPageBackgroundThemeBrush"];
-            //brush.Color = Color.FromArgb(80,80,10,0);
         }
 
         /// <summary>

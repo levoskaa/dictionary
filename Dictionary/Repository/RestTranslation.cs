@@ -1,5 +1,8 @@
 ﻿namespace Dictionary.Repository
 {
+    /// <summary>
+    /// Class representing the body of the response from the API.
+    /// </summary>
     public class RestTranslation
     {
         public Head Head { get; set; }
