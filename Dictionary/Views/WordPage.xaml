@@ -177,19 +177,28 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Vertical">
-            <StackPanel x:Name="pnlLanguageSelector"
-                    Orientation="Horizontal"
-                    Grid.Row="0"
+        <TextBlock Text="Dictionary"
+                   HorizontalAlignment="Center"
+                   Margin="0,24,0,0"
+                   FontSize="48"
+                   FontFamily="Helvetica"
+                   Grid.Row="0"
+                   Grid.Column="0"/>
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
                     Grid.Column="0">
+            <StackPanel x:Name="pnlLanguageSelector"
+                    Orientation="Horizontal">
                 <ComboBox x:Name="cmbFromLanguage"
                       Header="From"
                       PlaceholderText="Select a language"                      
                       Width="180"
                       Height="56"
                       Margin="24,24,12,8"
+                      CornerRadius="4,4,4,4"
                       ItemsSource="{x:Bind ViewModel.Languages, Mode=OneWay}"
                       SelectedItem="{x:Bind ViewModel.SelectedFromLanguage, Mode=TwoWay}" />
                 <Button x:Name="btnSwitch"                        
@@ -207,6 +216,7 @@
                       Width="{x:Bind cmbFromLanguage.Width}"
                       Height="{x:Bind cmbFromLanguage.Height}"
                       Margin="0,24,48,8"
+                      CornerRadius="4,4,4,4"
                       ItemsSource="{x:Bind ViewModel.Languages, Mode=OneWay}"
                       SelectedItem="{x:Bind ViewModel.SelectedToLanguage, Mode=TwoWay}"
                       IsEnabled="{x:Bind ViewModel.SearchForSynonyms, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"/>
@@ -214,6 +224,7 @@
                      Header=" "
                      PlaceholderText="Enter a word"
                      Margin="24,24,12,8"
+                     CornerRadius="4,4,4,4"
                      Width="252"
                      Height="56"
                      MaxHeight="56"
@@ -241,7 +252,7 @@
                      Foreground="Red"/>
         </StackPanel>
         <StackPanel Orientation="Vertical"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Margin="0,24,0,0">
             <TextBlock Text="Result"
